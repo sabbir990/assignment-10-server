@@ -30,6 +30,13 @@ async function run() {
             const result = await spotDB.insertOne(spot);
             res.send(result)
         })
+
+        app.get('/spots/:email', async(req, res) => {
+            const email = req.params.email;
+            const query = {email : email};
+            const result = await spotDB.find(query).toArray();
+            res.send(result)
+        })
     } finally {
         
     }
