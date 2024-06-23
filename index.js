@@ -44,6 +44,12 @@ async function run() {
             const result = await spotDB.findOne(query);
             res.send(result);
         })
+
+        app.get('/allSpots', async(req, res) => {
+            const query = spotDB.find();
+            const result = await query.toArray();
+            res.send(result)
+        })
     } finally {
         
     }
