@@ -50,6 +50,38 @@ async function run() {
             const result = await query.toArray();
             res.send(result)
         })
+
+        app.get('/updateableSpot/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id : new ObjectId(id)};
+            const result = await spotDB.findOne(query);
+            res.send(result)
+        })
+
+        app.put('/updateSpot/:id', async(req, res) => {
+            const id = req.params.id;
+            const spot = req.body;
+            const filter = {_id : new ObjectId(id)}
+            const options = {upsert : true};
+            const updatedSpot = {
+                $set : {
+                    image : spot.image,
+                    spotName : spot.spotName,
+                    countryName : spot.countryName,
+                    location : spot.location,
+                    shortDescription : spot.shortDescription,
+                    averageCost : spot.averageCost,
+                    seasonality : spot.seasonality,
+                    travelTime : spot.travelTime,
+                    totalVisitorPerYear : spot.totalVisitorPerYear,
+                    email : spot.email,
+                    name : spot.name
+                }
+            }
+
+            const result = await spotDB.updateOne(filter, updatedSpot, options);
+            res.send(result)
+        })
     } finally {
         
     }
